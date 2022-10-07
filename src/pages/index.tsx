@@ -67,8 +67,8 @@ const Home: NextPage = () => {
   const isNotValidFormData = () => {
     let regularMail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     let regularOnlyLetters = /^[Á-Źa-z\s]+$/i;
-    if (!name || !regularOnlyLetters.test(name)) return makeToast('El campo nombre esta vacío o es invalido', "error");
-    if (!email || !regularMail.test(email)) return makeToast('El campo E-mail esta vacío o es invalido', "error");
+    if (!name || !regularOnlyLetters.test(name)) return makeToast('El campo nombre esta vacío o es inválido', "error");
+    if (!email || !regularMail.test(email)) return makeToast('El campo E-mail esta vacío o es inválido', "error");
     if (clients.some((client: any) => client.email === email && client._id !== id)) {
       return makeToast(`Ya hay un cliente registrado cone le email ${email}`, 'error');
     }
