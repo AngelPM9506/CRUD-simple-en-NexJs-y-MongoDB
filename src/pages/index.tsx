@@ -65,8 +65,10 @@ const Home: NextPage = () => {
   }, []);
 
   const isNotValidFormData = () => {
-    if (!name) return makeToast('El campo nombre es obligatorio', "error");
-    if (!email) return makeToast('El campo E-mail es obligatorio', "error");
+    let regularMail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    let regularOnlyLetters = /^[Á-Źa-z\s]+$/i;
+    if (!name || !regularOnlyLetters.test(name)) return makeToast('El campo nombre esta vacío o es invalido', "error");
+    if (!email || !regularMail.test(email)) return makeToast('El campo E-mail esta vacío o es invalido', "error");
     if (clients.some((client: any) => client.email === email && client._id !== id)) {
       return makeToast(`Ya hay un cliente registrado cone le email ${email}`, 'error');
     }
@@ -100,7 +102,7 @@ const Home: NextPage = () => {
 
   const updateClient = async () => {
     if (isNotValidFormData()) return;
-    let { data } = await api.put(`/api/clients/${id}`, { name, email });    
+    let { data } = await api.put(`/api/clients/${id}`, { name, email });
     setLastClient(data);
     onClose();
     setName('');
