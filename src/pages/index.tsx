@@ -56,13 +56,14 @@ const Home: NextPage = () => {
   }
 
   const getAllClientsRegisterd = async () => {
-    let { data: { data } }: any = await api.get('/clients');
+    let { data: { data } }: any = await api.get('/api/clients');
     console.log(data);
     setClients(data)
   }
   useEffect(() => {
     getAllClientsRegisterd();
   }, []);
+
   const isNotValidFormData = () => {
     if (!name) return makeToast('El campo nombre es obligatorio', "error");
     if (!email) return makeToast('El campo E-mail es obligatorio', "error");
@@ -76,7 +77,7 @@ const Home: NextPage = () => {
     if (isNotValidFormData()) return;
     try {
       setIsLoading(true);
-      let { data: { newClient } }: any = await api.post('/clients', { name, email });
+      let { data: { newClient } }: any = await api.post('/api/clients', { name, email });
       setClients([...clients, newClient]);
       setLastClient(newClient);
       setName('');
@@ -91,7 +92,7 @@ const Home: NextPage = () => {
   }
 
   const deleteClient = async (id: string) => {
-    let { data } = await api.delete(`/clients/${id}`);
+    let { data } = await api.delete(`/api/clients/${id}`);
     setLastClient(data);
     makeToast('Cliente Eliminado correctamente', 'success');
     getAllClientsRegisterd();
@@ -99,7 +100,7 @@ const Home: NextPage = () => {
 
   const updateClient = async () => {
     if (isNotValidFormData()) return;
-    let { data } = await api.put(`/clients/${id}`, { name, email });    
+    let { data } = await api.put(`/api/clients/${id}`, { name, email });    
     setLastClient(data);
     onClose();
     setName('');

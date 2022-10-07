@@ -1,7 +1,9 @@
 import axios from "axios";
 
+let urlBase = process.env.AXIOS_URL_BASE;
+
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:3000/api'
+    baseURL: urlBase
 });
 
 export default api; 
