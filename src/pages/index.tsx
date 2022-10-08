@@ -56,11 +56,11 @@ const Home: NextPage = () => {
 
   const getAllClientsRegisterd = async () => {
     let { data: { data } }: any = await api.get('/clients');
-    console.log(data);
+    //console.log(data);
     setClients(data)
   }
   useEffect(() => {
-    console.log(pruebaApi);
+    //console.log(pruebaApi);
     getAllClientsRegisterd();
   }, []);
 
