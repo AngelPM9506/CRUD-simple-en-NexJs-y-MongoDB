@@ -28,10 +28,9 @@ import {
 import { NextPage } from "next"
 import { isValidElement, SyntheticEvent, useEffect, useRef, useState } from "react"
 import Header from "src/componentes/header"
-import api from "src/services/api"
+import api, { pruebaApi } from "src/services/api"
 
 type lastClient = { [x: string]: any }
-
 const Home: NextPage = () => {
   const initLast: lastClient = {};
   const [name, setName] = useState('');
@@ -56,11 +55,12 @@ const Home: NextPage = () => {
   }
 
   const getAllClientsRegisterd = async () => {
-    let { data: { data } }: any = await api.get('/api/clients');
+    let { data: { data } }: any = await api.get('/clients');
     console.log(data);
     setClients(data)
   }
   useEffect(() => {
+    console.log(pruebaApi);
     getAllClientsRegisterd();
   }, []);
 
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
     if (isNotValidFormData()) return;
     try {
       setIsLoading(true);
-      let { data: { newClient } }: any = await api.post('/api/clients', { name, email });
+      let { data: { newClient } }: any = await api.post('/clients', { name, email });
       setClients([...clients, newClient]);
       setLastClient(newClient);
       setName('');
@@ -94,7 +94,7 @@ const Home: NextPage = () => {
   }
 
   const deleteClient = async (id: string) => {
-    let { data } = await api.delete(`/api/clients/${id}`);
+    let { data } = await api.delete(`/clients/${id}`);
     setLastClient(data);
     makeToast('Cliente Eliminado correctamente', 'success');
     getAllClientsRegisterd();
@@ -102,7 +102,7 @@ const Home: NextPage = () => {
 
   const updateClient = async () => {
     if (isNotValidFormData()) return;
-    let { data } = await api.put(`/api/clients/${id}`, { name, email });
+    let { data } = await api.put(`/clients/${id}`, { name, email });
     setLastClient(data);
     onClose();
     setName('');

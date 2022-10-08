@@ -7,3 +7,5 @@ const api = axios.create({
 });
 
 export default api; 
+
+export const pruebaApi = process.env.AXIOS_URL_BASE
