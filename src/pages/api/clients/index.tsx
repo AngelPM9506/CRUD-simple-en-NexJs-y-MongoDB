@@ -21,8 +21,10 @@ const Index = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).json({ status: 'success', data: clients });
       case 'POST':
         let { body: { name, email } } = req;
-        if (!name || !email) return res.status(404).json({ status: 'error', msg: 'Data Missing' })
-        let newClient = await ClientModel.create({ name, email });
+        if (!name || !email) return res.status(404).json({ status: 'error', msg: 'Data Missing' });
+        const verifyClients = await ClientModel.find({});
+        if (verifyClients.length >= 100) return res.json({ status: 'error', msg: 'Solo se admite un maximo de 100 registros' });
+        let newClient = await ClientModel.create({ name: name.trim(), email: email.trim() });
         return res.status(201).json({ status: 'success', newClient });
       default:
         return res.status(404).json({ status: 'error', msg: 'Method unsuported' });

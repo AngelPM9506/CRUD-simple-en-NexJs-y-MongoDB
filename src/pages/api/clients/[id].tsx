@@ -22,9 +22,11 @@ const Index = async (req: NextApiRequest, res: NextApiResponse) => {
             case 'PUT':
                 if (!name && !email) return res.status(404).json({ status: 'error', msg: 'Data Missing' })
                 console.log('PUT Method');
-                let upClient = await ClientModel.updateOne({ _id: id }, { name, email });
+                let upClient = await ClientModel.updateOne({ _id: id }, { name: name.trim(), email: email.trim() });
                 return res.status(201).json({ status: 'success', upClient });
             case 'DELETE':
+                const verifyClients = await ClientModel.find({});
+                if (verifyClients.length <= 1) return res.json({ status: 'error', msg: 'Debe de haber al menos un cliente en todo momento' });
                 let clientDelete = await ClientModel.deleteOne({ _id: id });
                 return res.status(201).json({ status: 'success', clientDelete });
             default:

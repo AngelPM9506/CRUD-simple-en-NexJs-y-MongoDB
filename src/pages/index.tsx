@@ -77,9 +77,13 @@ const Home: NextPage = () => {
   const newClient = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (isNotValidFormData()) return;
+    if (clients.length >= 100) {
+      makeToast('Solo se admite un maximo de 100 registros', 'error');
+      return;
+    }
     try {
       setIsLoading(true);
-      let { data: { newClient } }: any = await api.post('/clients', { name, email });
+      let { data: { newClient } }: any = await api.post('/clients', { name: name.trim(), email: email.trim() });
       setClients([...clients, newClient]);
       setLastClient(newClient);
       setName('');
@@ -94,6 +98,10 @@ const Home: NextPage = () => {
   }
 
   const deleteClient = async (id: string) => {
+    if (clients.length <= 1) {
+      makeToast('Debe de haber al menos un cliente en todo momento', 'error');
+      return;
+    }
     let { data } = await api.delete(`/clients/${id}`);
     setLastClient(data);
     makeToast('Cliente Eliminado correctamente', 'success');
@@ -102,7 +110,7 @@ const Home: NextPage = () => {
 
   const updateClient = async () => {
     if (isNotValidFormData()) return;
-    let { data } = await api.put(`/clients/${id}`, { name, email });
+    let { data } = await api.put(`/clients/${id}`, { name: name.trim(), email: email.trim() });
     setLastClient(data);
     onClose();
     setName('');
