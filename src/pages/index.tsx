@@ -159,7 +159,7 @@ const Home: NextPage = () => {
 
           <Flex justifyContent={'space-between'} marginBottom='2rem'>
             <Heading as={'h2'}>Registro de Clientes</Heading>
-            <Button colorScheme={'blue'} onClick={() => { setIsFormOpen(!isFormOpen) }}>{isFormOpen ? '-' : '+'}</Button>
+            <Button colorScheme={'blue'} onClick={() => { setIsFormOpen(!isFormOpen) }}>{isFormOpen ? 'Cerrar' : 'Abrir'}</Button>
           </Flex>
           {/* Formulario solo se abre en caso de seleccionar el boton*/}
           {isFormOpen ?
